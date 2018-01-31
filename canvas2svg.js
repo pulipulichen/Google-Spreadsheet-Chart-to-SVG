@@ -73,6 +73,9 @@ var _convert_canvas_to_svg = function (_callback) {
 				var svg = new Blob([svg_text], {type: 'text/plain'});
 				saveAs(svg, _id + ".svg");
 			}
+			else {
+				_canvas_error++;
+			}
 
             _next(_i);
 
@@ -119,6 +122,9 @@ var _save_svg = function (_callback) {
 				var svg = new Blob([svg_text], {type: 'text/plain'});
 				saveAs(svg, _id + ".svg");
 			}
+			else {
+				_svg_error++;
+			}
 
             _next(_i);
 
@@ -133,12 +139,35 @@ var _save_svg = function (_callback) {
     _loop(0);
 };
 
+
+_canvas_error = 0;
+_svg_error = 0;
+var _show_error = function () {
+	var _msg = [];
+	if (_canvas_error > 0) {
+		_msg.push(_canvas_error + " <canvas> cannot be export to SVG.");
+	}
+	if (_svg_error > 0) {
+		if (_svg_error === 1) {
+			_msg.push(_canvas_error + " <svg> is empty.");
+		}
+		else {
+			_msg.push(_canvas_error + " <svg> are empty.");
+		}
+	}
+	
+	if (_msg.length > 0) {
+		alert(_msg.join("\n"));
+	}
+};
+
 // -------------------------
 
 if (typeof(_need_reload) === "undefined") {
 	_need_reload = false;
 }
 var _debug = false;
+
 
 var _main = function () {
 	
@@ -154,6 +183,8 @@ var _main = function () {
 			_convert_canvas_to_svg(function () {
 				_save_svg(function () {
 					_need_reload = true;
+					_show_error();
+					
 					
 					if (_debug === true) {
 						//_test_proc();
