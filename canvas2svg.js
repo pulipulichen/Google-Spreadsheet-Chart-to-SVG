@@ -145,7 +145,7 @@ _svg_error = 0;
 var _show_error = function () {
 	var _msg = [];
 	if (_canvas_error > 0) {
-		_msg.push(_canvas_error + " <canvas> cannot be export to SVG.");
+		_msg.push(_canvas_error + " <canvas> cannot export to SVG.");
 	}
 	if (_svg_error > 0) {
 		if (_svg_error === 1) {
